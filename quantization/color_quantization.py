@@ -15,6 +15,17 @@ n_colors = 64
 #Load photo
 photo = load_sample_image("china.jpg")
 
+def recreate_image(codebook, labels, w, h):
+    d = codebook.shape[1]
+    image = np.zeroes((w, h, d))
+
+    label_idx = 0
+    for i in range(w):
+        for j in range(h):
+            image[i][j] = codebook[labels[label_idx]]
+            label_idx += 1
+    return image
+
 
 # Convert image array to floats instead of 8 bit integer coding. 
 # Divide by 255 so that plt.imshow works well on floating points
