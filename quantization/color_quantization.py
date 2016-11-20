@@ -17,7 +17,7 @@ photo = load_sample_image("china.jpg")
 
 def recreate_image(codebook, labels, w, h):
     d = codebook.shape[1]
-    image = np.zeroes((w, h, d))
+    image = np.zeros((w, h, d))
 
     label_idx = 0
     for i in range(w):
@@ -45,3 +45,23 @@ labels = kmeans.predict(image_array)
 codebook_random = shuffle(image_array, random_state=0)[:n_colors + 1]
 labels_random = pairwise_distances_argmin(codebook_random, image_array, axis=0)
 
+plt.figure(1)
+plt.clf()
+ax = plt.axes([0, 0, 1, 1])
+plt.axis('off')
+plt.title('Origina image')
+plt.imshow(china)
+
+plt.figure(2)
+plt.clf()
+ax = plt.axis('off')
+plt.title('Quantized image (64 colors, K-means)')
+plt.imshow(recreate_image(kmeans.cluster_centers_, labels, w, h))
+
+plt.figure(3)
+plt.clf()
+ax = plt.axes([0, 0, 1, 1])
+plt.axis('off')
+plt.title('Quantized image (64 colors, Random)')
+plt.imshow(recreate_image(codebook_random, labels_random, w, h))
+plt.show()
